@@ -83,4 +83,10 @@ public class UserController {
 		
 		return "user/update";
 	}
+	
+	//===================== SecurityConfig에서 경로를 찾지 못하는 문제가 발생하여 명시해줌
+	@RequestMapping(value="/auth", method=RequestMethod.POST)
+	public void auth() { }
+	@RequestMapping(value="/logout", method=RequestMethod.GET)
+	public void logout() { }
 }
