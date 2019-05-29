@@ -33,9 +33,20 @@
 									|		|--- DBConfig
 									|		|--- MyBatisConfig
 									|		|--- /mybatis
-									|				|--- configuration.xml
-									|				|--- /mappers
-									|				|		|--- user.xml
-									|						|--- ...
+									|		|		|--- configuration.xml
+									|		|		|--- /mappers
+									|		|				|--- user.xml
+									|		|				|--- ...
+									|		|--- /properties
+									|				|--- jdbc.properties
+									|
 									|--- /web
+									|		|--- MVCConfig
+									|		|--- SecurityConfig
+									|		|--- MessageConfig
+									|		|--- FileUploadConfig
+									|		|		|--- /messages
+									|		|		|		|--- messages_ko.properties
+									|		|		|--- /properties
+									|		|		|		|--- multipart.properties
 
