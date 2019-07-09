@@ -20,14 +20,16 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@ApiOperation(value="이메일 존재 여부")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name="email", value="이메일 주소", required=true, dataType="string", defaultValue="")
-	})
+	// ??????? 없어야지 제대로 동작함
+//	@ApiOperation(value="이메일 존재 여부")
+//	@ApiImplicitParams({
+//		@ApiImplicitParam(name="email", value="이메일 주소", required=true, dataType="string", defaultValue="123213")
+//	})
 	@RequestMapping(value="/checkemail", method=RequestMethod.GET)
 	public JSONResult checkEmail(
 			@RequestParam(value="email", required=true, defaultValue="") String email) {
 		Boolean exist = userService.existEmail(email);
+		System.out.println(email);
 		return JSONResult.success(exist);
 	}
 }
