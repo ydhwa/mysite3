@@ -1,6 +1,28 @@
 package com.cafe24.pjshop.problem;
 
-import static org.junit.Assert.*;
+
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.both;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.either;
+import static org.hamcrest.Matchers.everyItem;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.startsWith;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Arrays;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -10,7 +32,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 public class ExampleTest {
-	// 테스트 케이스(메소드)끼릴 공유해야 할 변수가 있으면
+	// 테스트 케이스(메소드)끼리 공유해야 할 변수가 있으면
 	// static!!
 	private static StringBuilder output = new StringBuilder("");
 
@@ -53,7 +75,7 @@ public class ExampleTest {
 	}
 
 
-	// 테스트 무시 무시
+	// 테스트 무시
 	@Ignore
 	@Test
 	public void ignoreTest() {
@@ -61,7 +83,15 @@ public class ExampleTest {
 	}
 
 	@Test
-	public void testAssert() {
+	public void testAssert1() {
+		Object[] a = {"Java", "JUnit", "Spring"};
+		Object[] b = {"Java", "JUnit", "Spring"};
+
+		assertArrayEquals(a, b);
+	}
+
+	@Test
+	public void testAssert2() {
 		assertTrue(true);
 		assertFalse(false);
 
@@ -75,7 +105,31 @@ public class ExampleTest {
 		assertSame("Hello", "Hello");
 		assertNotSame(new Integer(1), new Integer(1));
 
-		// assertThat
+		// assertThat : is
+		assertThat(1+2, is(3));
+		assertThat("this is never", is(not("that")));
 
+		// assertThat : allOf
+		System.out.println(startsWith("Hell"));
+	//	assertThat("Hello World", allOf(startsWith("Hell"), containsString("or")));
+		assertThat("Hello World", allOf(startsWith("He"), containsString("or")));
+
+		// assertThat : anyOf
+		assertThat("Hello World", anyOf(startsWith("Heaven"), containsString("or")));
+
+		// assertThat : both
+		assertThat("ABC", both(containsString("A")).and(containsString("C")));
+
+		// assertThat : either
+		assertThat("ABC", either(containsString("A")).or(containsString("c")));
+
+		// assertThat : everyItem
+		assertThat(Arrays.asList("Apple", "Application", "Apolosize"), everyItem(startsWith("Ap")));
+
+		// assertThat : hasItem
+		assertThat(Arrays.asList("Red", "Banana", "Black"), hasItem("Banana"));
+
+		//
+		// fail("All Over!!!!!");
 	}
 }
