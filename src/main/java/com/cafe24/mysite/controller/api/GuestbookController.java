@@ -1,9 +1,11 @@
 package com.cafe24.mysite.controller.api;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,8 +28,14 @@ public class GuestbookController {
 	}
 	
 	@RequestMapping(value="/add", method = RequestMethod.POST)
-	public JSONResult add() {
-		return null;
+	public JSONResult add(@RequestBody GuestbookVo guestbookVo) {
+		GuestbookVo newVo = guestbookService2.addContents(guestbookVo);
+		return JSONResult.success(newVo);
 	}
 
+	@RequestMapping(value="/delete", method = RequestMethod.DELETE)
+	public JSONResult delete(@RequestBody Map<String, Object> map) {
+		Long no = guestbookService2.deleteContents(((Integer)(map.get("no"))).longValue(), (String)map.get("password"));
+		return JSONResult.success(no);
+	}
 }
