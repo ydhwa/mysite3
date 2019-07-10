@@ -25,4 +25,14 @@ public class GuestbookService {
 	public Boolean deleteGuestbook(GuestbookVo guestbookVo) {
 		return guestbookDao.delete(guestbookVo);
 	}
+
+	public List<GuestbookVo> getContentsList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void writeContent(GuestbookVo vo) {
+		// TODO Auto-generated method stub
+		
+	}
 }

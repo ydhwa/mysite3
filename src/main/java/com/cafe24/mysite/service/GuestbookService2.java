@@ -28,7 +28,6 @@ public class GuestbookService2 {
 	}
 
 	public Long deleteContents(Long no, String password) {
-		
 		return no;
 	}
 
