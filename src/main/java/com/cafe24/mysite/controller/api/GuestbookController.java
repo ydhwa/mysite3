@@ -33,6 +33,12 @@ public class GuestbookController {
 		guestbookService.addGuestbook(guestbookVo);
 		return JSONResult.success(guestbookVo);
 	}
+	
+	@RequestMapping(value="/delete", method = RequestMethod.DELETE)
+	public JSONResult delete(@RequestBody GuestbookVo guestbookVo) {
+		guestbookService.deleteGuestbook(guestbookVo);
+		return JSONResult.success(guestbookVo.getNo());
+	}
 
 //	@RequestMapping(value="/delete", method = RequestMethod.DELETE)
 //	public JSONResult delete(@RequestBody Map<String, Object> map) {

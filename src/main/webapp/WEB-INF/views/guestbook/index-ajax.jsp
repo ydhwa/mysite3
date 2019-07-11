@@ -32,9 +32,9 @@ $(function(){
 			$( "#dialog-delete-form form" ).get(0).reset();	
 		}
 	});
-	$("ul#list-guestbook li a").click( function(event) {
+	$("#guestbook li a").click( function(event) {
 		event.preventDefault();
-		dialogDelete.dialog( "open" );
+		dialogDelete.dialog( 'open' );
 	});
 });
 
@@ -96,6 +96,49 @@ var fetchList = function() {
 }
 
 $(function() {
+	var dialogDelete = $( "#dialog-delete-form" ).dialog({
+		autoOpen: false,
+		height: 170,
+		width: 300,
+		modal: true,
+		buttons: {
+			'삭제': function() {
+				var vo = {
+					no: $('#hidden-no').val(),
+					password: $('#password-delete').val()
+				}
+				
+				$.ajax({
+					url: "${pageContext.request.contextPath}/api/guestbook/delete",
+					type: "delete",
+					contentType: "application/json",	// POST 방식으로 JSON Type의 데이터를 보낼 때
+					dataType: "json",
+					data: JSON.stringify(vo),
+					success: function(response) {
+						if(response.result != "success") {
+							console.error(response.message);
+							return ;
+						}
+						
+						// li 엘리먼트 삭제
+						$('#list-guestbook li[data-no="' + response.data + '"]').remove();
+						dialogDelete.dialog('close');
+					},
+					error: function(jqXHR, status, e) {
+						console.err(status + ": " + e);
+					}
+				});
+	        },
+	        '취소': function() {
+	        	dialogDelete.dialog( "close" );
+	        }
+	    },
+	    close: function() {
+	    	$('#password-delete').val('');
+	    	$('#hidden-no').val('');
+		}
+	});
+	
 	$('#btn-next').click(function() {
 		fetchList();
 	});
@@ -152,6 +195,20 @@ $(function() {
 		});
 	});
 	
+	// 작동 안함. li 요소를 동적으로 만들어주기 때문
+	$('#guestbook ul li a').click(function(event) {
+		console.log('click!!!!!!!!!!');
+		event.preventDefault();
+	});
+	// live event => delegation(위임) 방식
+	$(document).on('click', '#guestbook ul li a', function(event) {
+		event.preventDefault();
+
+		$('#hidden-no').val($(this).data('no'));		
+		dialogDelete.dialog('open');
+	});
+	
+	
 	// 최초 리스트 가져오기
 	fetchList();
 });
@@ -173,8 +230,9 @@ $(function() {
 									
 				</ul>
 			</div>
+			
 			<div id="dialog-delete-form" title="메세지 삭제" style="display:none">
-  				<p class="validateTips normal">작성시 입력했던 비밀번호를 입력하세요.</p>
+				<p class="validateTips normal">작성시 입력했던 비밀번호를 입력하세요.</p>
   				<p class="validateTips error" style="display:none">비밀번호가 틀립니다.</p>
   				<form>
  					<input type="password" id="password-delete" value="" class="text ui-widget-content ui-corner-all">
@@ -182,10 +240,8 @@ $(function() {
 					<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
   				</form>
 			</div>
-			<button id="btn-next">Next Page</button>
-			<div id="dialog-message" title="" style="display:none">
-  				<p></p>
-			</div>						
+<!-- 			<button id="btn-next">Next Page</button> -->
+					
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp">
 			<c:param name="menu" value="guestbook-ajax"/>
