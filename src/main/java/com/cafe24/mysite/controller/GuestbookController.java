@@ -50,4 +50,9 @@ public class GuestbookController {
 		return "redirect:/guestbook/list";
 	}
 
+	// 방명록 AJAX 페이지
+	@RequestMapping("/timeline")
+	public String timeline() {
+		return "guestbook/index-ajax";
+	}
 }

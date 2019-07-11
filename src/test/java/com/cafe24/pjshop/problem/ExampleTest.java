@@ -103,10 +103,10 @@ public class ExampleTest {
 		// assertThat : allOf
 		System.out.println(startsWith("Hell"));
 	//	assertThat("Hello World", allOf(startsWith("Hell"), containsString("or")));
-		assertThat("Hello World", allOf(startsWith("He"), containsString("or")));
+//		assertThat("Hello World", allOf(startsWith("He"), containsString("or")));
 
 		// assertThat : anyOf
-		assertThat("Hello World", anyOf(startsWith("Heaven"), containsString("or")));
+//		assertThat("Hello World", anyOf(startsWith("Heaven"), containsString("or")));
 
 		// assertThat : both
 		assertThat("ABC", both(containsString("A")).and(containsString("C")));
@@ -118,7 +118,7 @@ public class ExampleTest {
 		assertThat(Arrays.asList("Apple", "Application", "Apolosize"), everyItem(startsWith("Ap")));
 
 		// assertThat : hasItem
-		assertThat(Arrays.asList("Red", "Banana", "Black"), hasItem("Banana"));
+//		assertThat(Arrays.asList("Red", "Banana", "Black"), hasItem("Banana"));
 
 		//
 		// fail("All Over!!!!!");

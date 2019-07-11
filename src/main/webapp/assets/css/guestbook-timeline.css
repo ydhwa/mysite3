@@ -1,0 +1,67 @@
+@CHARSET "UTF-8";
+@import "mysite.css";
+
+#guestbook			{ margin:20px auto;	width:540px; }
+* { font-family: '맑은 고딕', '돋움'; }
+
+#guestbook h1 {
+	color: #515151;
+	padding-left: 35px;
+	background: url('/assets/images/guestbook/guestbook.png') 0 0 no-repeat;
+	background-size: contain;
+}
+
+#guestbook input {
+	width: 100%;
+	margin: 5px auto;
+}
+
+#guestbook textarea {
+	width: 100%;
+	height: 100px;
+	resize: none;
+	margin: 5px auto;
+	padding: 1px;
+}
+
+#guestbook input[type=submit] {
+	background-color: #fff;
+	width: 100%;
+	height: 35px;
+	box-shadow: none;
+	border: 1px solid #ababab;
+	color: #555;
+	font-weight: bold;
+}
+
+#guestbook form {
+	padding-bottom: 10px;
+	margin-bottom: 15px;
+	border-bottom: 1px solid #ababab;
+}
+
+
+#guestbook ul li strong, #guestbook ul li a {
+	display: block;	
+}
+
+#guestbook ul li {
+	position: relative;
+	left: 50px;
+	margin: 10px auto;
+}
+
+#guestbook ul li a {
+	position: absolute;
+	left: 20px;
+	top: 40px;
+}
+#guestbook li strong {
+	color: #C9CAD1;
+}
+#guestbook li p {
+	background-color: #FAFAFA;
+	color: #333;
+	width: 470px;
+	padding: 10px;
+}
