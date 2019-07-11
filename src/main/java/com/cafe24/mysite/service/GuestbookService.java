@@ -26,13 +26,7 @@ public class GuestbookService {
 		return guestbookDao.delete(guestbookVo);
 	}
 
-	public List<GuestbookVo> getContentsList() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void writeContent(GuestbookVo vo) {
-		// TODO Auto-generated method stub
-		
+	public List<GuestbookVo> getContentsList(Long startNo) {
+		return guestbookDao.getList(startNo);
 	}
 }

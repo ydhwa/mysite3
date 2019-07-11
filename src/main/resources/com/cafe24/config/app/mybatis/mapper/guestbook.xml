@@ -10,6 +10,15 @@
 		]]>
 	</select>
 	
+	<select id="getList2" resultType="guestbookvo" parameterType="long">
+		<![CDATA[
+			select no, name, contents, date_format(reg_date, '%Y-%m-%d %H:%i:%s')
+			from guestbook
+			order by reg_date desc
+			limit #{ value }, 5;
+		]]>
+	</select>
+	
 	<insert id="insert" parameterType="guestbookvo">
 		<![CDATA[
 			insert 

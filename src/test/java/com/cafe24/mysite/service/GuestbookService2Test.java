@@ -23,7 +23,7 @@ import com.cafe24.mysite.vo.GuestbookVo;
 public class GuestbookService2Test {
 	
 	@Autowired
-	private GuestbookService guestbookService;
+	private GuestbookService2 guestbookService;
 	
 	@Test
 	public void testGuestbookService2DI() {
@@ -32,7 +32,7 @@ public class GuestbookService2Test {
 	
 	@Test
 	public void testGetContentList() {
-		List<GuestbookVo> list = guestbookService.getContentsList();
+		List<GuestbookVo> list = guestbookService.getContentsList(1);
 //		assertArrayEquals(list);
 	}
 	
@@ -42,7 +42,7 @@ public class GuestbookService2Test {
 		vo.setName("user1");
 		vo.setPassword("1234");
 		vo.setContents("test1");
-		guestbookService.writeContent(vo);
+		guestbookService.addContents(vo);
 	}
 	
 //	@AfterClass

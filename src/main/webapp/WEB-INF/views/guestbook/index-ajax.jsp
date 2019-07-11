@@ -37,6 +37,57 @@ $(function(){
 		dialogDelete.dialog( "open" );
 	});
 });
+
+var isEnd = true;
+var startPage = 1;
+var render = function(vo) {
+	// 실제로는 template library 사용한다.
+	// -> ejs, underscore, mustache
+	var html =
+		'<li data-no="'+ vo.no +'">' + 
+			'<strong>' + vo.name + '</strong>' + 
+			'<p>' + vo.contents.replace("/\n\gi", '<br>') + '</p>' + 
+			'<strong></strong>' + 
+			'<a href="" data-no="">삭제</a>' + 
+		'</li>';
+	
+		$('#list-guestbook').append(html);
+}
+
+$(function() {
+	$('#btn-next').click(function() {
+		if(isEnd == false) {
+			return;
+		}
+		
+		$.ajax({
+			url: "${pageContext.request.contextPath}/api/guestbook/list/" + startPage,
+			type: "get",
+			//contentType: "application/json",	// POST 방식으로 JSON Type의 데이터를 보낼 때
+			dataType: "json",
+			data: "",
+			success: function(response) {
+				if(response.result != "success") {
+					console.error(response.message);
+					return ;
+				}
+				
+				// isEnd 검증
+				
+				
+				// rendering
+				$.each(response.data, function(index, vo) {
+					render(vo);
+				});
+				startPage++;
+// 				$.each(response.data, render);
+			},
+			error: function(jqXHR, status, e) {
+				console.err(status + ": " + e);
+			}
+		});
+	});
+});
 </script>
 </head>
 <body>
@@ -52,37 +103,6 @@ $(function(){
 					<input type="submit" value="보내기" />
 				</form>
 				<ul id="list-guestbook">
-
-					<li data-no=''>
-						<strong>지나가다가</strong>
-						<p>
-							별루입니다.<br>
-							비번:1234 -,.-
-						</p>
-						<strong></strong>
-						<a href='' data-no=''>삭제</a> 
-					</li>
-					
-					<li data-no=''>
-						<strong>둘리</strong>
-						<p>
-							안녕하세요<br>
-							홈페이지가 개 굿 입니다.
-						</p>
-						<strong></strong>
-						<a href='' data-no=''>삭제</a> 
-					</li>
-
-					<li data-no=''>
-						<strong>주인</strong>
-						<p>
-							아작스 방명록 입니다.<br>
-							테스트~
-						</p>
-						<strong></strong>
-						<a href='' data-no=''>삭제</a> 
-					</li>
-					
 									
 				</ul>
 			</div>
@@ -95,6 +115,7 @@ $(function(){
 					<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
   				</form>
 			</div>
+			<button id="btn-next">Next Page</button>
 			<div id="dialog-message" title="" style="display:none">
   				<p></p>
 			</div>						
