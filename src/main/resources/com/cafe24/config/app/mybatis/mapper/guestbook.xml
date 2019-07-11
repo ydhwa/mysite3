@@ -14,8 +14,15 @@
 		<![CDATA[
 			select no, name, contents, date_format(reg_date, '%Y-%m-%d %H:%i:%s')
 			from guestbook
-			order by reg_date desc
-			limit #{ value }, 5;
+		]]>
+		<if test="_parameter > 0">
+			<![CDATA[
+				where no < #{_parameter}
+			]]>
+		</if>
+		order by no desc
+		<![CDATA[	
+			limit 0, 5;
 		]]>
 	</select>
 	

@@ -26,7 +26,7 @@ public class GuestbookService {
 		return guestbookDao.delete(guestbookVo);
 	}
 
-	public List<GuestbookVo> getContentsList(Long startNo) {
-		return guestbookDao.getList(startNo);
+	public List<GuestbookVo> getContentsList(Long lastNo) {
+		return guestbookDao.getList(lastNo);
 	}
 }

@@ -21,9 +21,9 @@ public class GuestbookController {
 	@Autowired
 	private GuestbookService guestbookService;
 	
-	@RequestMapping(value="/list/{no}", method=RequestMethod.GET)
-	public JSONResult list(@PathVariable(value="no") Long no) {
-		List<GuestbookVo> list = guestbookService.getContentsList(no);
+	@RequestMapping(value="/list/{lastNo}", method=RequestMethod.GET)
+	public JSONResult list(@PathVariable(value="lastNo") Long lastNo) {
+		List<GuestbookVo> list = guestbookService.getContentsList(lastNo);
 		
 		return JSONResult.success(list);
 	}
