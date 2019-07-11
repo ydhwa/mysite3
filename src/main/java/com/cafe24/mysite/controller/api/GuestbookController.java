@@ -28,12 +28,12 @@ public class GuestbookController {
 		return JSONResult.success(list);
 	}
 	
-//	@RequestMapping(value="/add", method = RequestMethod.POST)
-//	public JSONResult add(@RequestBody GuestbookVo guestbookVo) {
-//		GuestbookVo newVo = guestbookService.addContents(guestbookVo);
-//		return JSONResult.success(newVo);
-//	}
-//
+	@RequestMapping(value="/add", method = RequestMethod.POST)
+	public JSONResult add(@RequestBody GuestbookVo guestbookVo) {
+		guestbookService.addGuestbook(guestbookVo);
+		return JSONResult.success(guestbookVo);
+	}
+
 //	@RequestMapping(value="/delete", method = RequestMethod.DELETE)
 //	public JSONResult delete(@RequestBody Map<String, Object> map) {
 //		Long no = guestbookService.deleteContents(((Integer)(map.get("no"))).longValue(), (String)map.get("password"));

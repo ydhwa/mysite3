@@ -32,6 +32,9 @@
 			into guestbook 
 			values(null, #{ name }, #{ password }, #{ contents }, now());
 		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
 	</insert>
 	
 	<delete id="delete" parameterType="guestbookvo">

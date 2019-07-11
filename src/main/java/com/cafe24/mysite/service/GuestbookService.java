@@ -28,5 +28,5 @@ public class GuestbookService {
 
 	public List<GuestbookVo> getContentsList(Long lastNo) {
 		return guestbookDao.getList(lastNo);
-	}
+	} 
 }

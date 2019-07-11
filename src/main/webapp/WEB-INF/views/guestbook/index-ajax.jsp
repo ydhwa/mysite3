@@ -39,7 +39,7 @@ $(function(){
 });
 
 var isEnd = false;
-var render = function(vo) {
+var render = function(vo, mode) {
 	// 실제로는 template library 사용한다.
 	// -> ejs, underscore, mustache
 	var html =
@@ -50,7 +50,11 @@ var render = function(vo) {
 			'<a href="" data-no="' + vo.no + '">삭제</a>' + 
 		'</li>';
 	
+	if(mode) {
+		$('#list-guestbook').prepend(html);
+	} else {
 		$('#list-guestbook').append(html);
+	}
 }
 
 var fetchList = function() {
@@ -105,6 +109,47 @@ $(function() {
 		if(scrollTop + windowHeight + 10 > documentHeight) {
 			fetchList();
 		}
+	});
+	
+	$('#add-form').submit(function() {
+		// submit 이벤트 기본 동작을 막는다.
+		// posting을 막음
+		event.preventDefault();
+		
+		var vo = {};
+		
+		// validation (client side, UX) - form validation jquery plugin
+		// 생략
+		
+		// java에서 사용하는 이름과 일치해야 한다.(jackson이 매핑해줘야 하므로)
+		vo.name = $('#input-name').val();
+		vo.password = $('#input-password').val();
+		vo.contents = $('#tx-content').val();
+		
+// 		console.log($.param(vo));
+// 		console.log(JSON.stringify(vo));
+
+		$.ajax({
+			url: "${pageContext.request.contextPath}/api/guestbook/add",
+			type: "post",
+			contentType: "application/json",	// POST 방식으로 JSON Type의 데이터를 보낼 때
+			dataType: "json",
+			data: JSON.stringify(vo),
+			success: function(response) {
+				if(response.result != "success") {
+					console.error(response.message);
+					return ;
+				}	
+				
+				render(response.data, true);
+				
+				// reset form
+				$('#add-form')[0].reset();
+			},
+			error: function(jqXHR, status, e) {
+				console.err(status + ": " + e);
+			}
+		});
 	});
 	
 	// 최초 리스트 가져오기
