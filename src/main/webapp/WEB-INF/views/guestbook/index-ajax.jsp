@@ -10,9 +10,11 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/assets/css/guestbook-ajax.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/ejs/ejs.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script>
 
+<script>
+var emptyFunction = function() {};
 // 190712 - jQuery Plug-in
 (function(a) {
 	$.fn.flash = function() {
@@ -32,7 +34,7 @@ $(function(){
 	//업로드 다이알로그
 	var dialogDelete = $( "#dialog-delete-form" ).dialog({
 		autoOpen: false,
-		height: 150,
+		height: 170,
 		width: 300,
 		modal: true,
 		buttons: {
@@ -53,6 +55,32 @@ $(function(){
 		dialogDelete.dialog( 'open' );
 	});
 });
+
+//////////////////////////////////////////////////////////////////////
+var messageBox = function(title, message, callback) {
+	$('#dialog-message').attr('title', title);
+	$('#dialog-message').text(message);
+	$('#dialog-message').dialog({
+		modal: true,
+		buttons: {
+			'확인': function() {
+				$(this).dialog('close');
+			}
+		},
+		close: function() {
+			(callback || function() {})	// 개발자도구에서 에러 메시지 뜨지 않게 하는 법
+		}
+	});
+}
+
+// import ejs template
+var listItemTemplate = new EJS({
+	url: '${pageContext.request.contextPath }/assets/js/ejs/ejs-templates/guestbook-list-item.ejs'
+});
+var listTemplate = new EJS({
+	url: '${pageContext.request.contextPath }/assets/js/ejs/ejs-templates/guestbook-list.ejs'
+});
+
 
 var isEnd = false;
 var render = function(vo, mode) {
@@ -179,12 +207,27 @@ $(function() {
 		var vo = {};
 		
 		// validation (client side, UX) - form validation jquery plugin
-		// 생략
+		vo.name = $('#input-name').val();
+		if(vo.name == '') {
+			messageBox('글남기기', '이름은 필수 입력 항목입니다.', function() {
+				$('#input-name').focus();
+			});
+			return ;
+		}
+		vo.password = $('#input-password').val();
+		if(vo.password == '') {
+			messageBox('글남기기', '비밀번호는 필수 입력 항목입니다.', function() {
+				$('#input-password').focus();
+			});
+			return ;
+		}
+		vo.contents = $('#tx-content').val();
+		if(vo.contents == '') {
+			messageBox('글남기기', '내용은 필수 입력 항목입니다.');
+			return ;
+		}
 		
 		// java에서 사용하는 이름과 일치해야 한다.(jackson이 매핑해줘야 하므로)
-		vo.name = $('#input-name').val();
-		vo.password = $('#input-password').val();
-		vo.contents = $('#tx-content').val();
 		
 // 		console.log($.param(vo));
 // 		console.log(JSON.stringify(vo));
@@ -257,8 +300,11 @@ $(function() {
 					<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
   				</form>
 			</div>
+			<div id="dialog-message" title=""><p></p></div>
+			
 			<button id="btn-next">JQuery flash plug-in</button>
-					
+			
+
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp">
 			<c:param name="menu" value="guestbook-ajax"/>
