@@ -12,6 +12,22 @@
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
+
+// 190712 - jQuery Plug-in
+(function(a) {
+	$.fn.flash = function() {
+		$(this).click(function() {
+			var isBlink = false;
+			var $that = $(this);
+			setInterval(function() {
+				$that.css('background-color', isBlink ? "#f00" : "#aaa");
+				isBlink = !isBlink;
+			}, 1000);
+		});
+	}
+})(jQuery);
+
+/////////////////////////////////////////////////////////////
 $(function(){
 	//업로드 다이알로그
 	var dialogDelete = $( "#dialog-delete-form" ).dialog({
@@ -139,8 +155,9 @@ $(function() {
 		}
 	});
 	
+	$('#btn-next').flash();
 	$('#btn-next').click(function() {
-		fetchList();
+// 		fetchList();
 	});
 	
 	$(window).scroll(function() {
@@ -240,7 +257,7 @@ $(function() {
 					<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
   				</form>
 			</div>
-<!-- 			<button id="btn-next">Next Page</button> -->
+			<button id="btn-next">JQuery flash plug-in</button>
 					
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp">
