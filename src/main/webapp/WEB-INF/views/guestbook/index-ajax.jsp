@@ -10,8 +10,8 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/assets/css/guestbook-ajax.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/ejs/ejs.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/ejs/ejs.js"></script>
 
 <script>
 var emptyFunction = function() {};
@@ -74,6 +74,7 @@ var messageBox = function(title, message, callback) {
 }
 
 // import ejs template
+// warning: 동기적으로 처리하게 되어서. 별로 신경쓰지 않아도된다.
 var listItemTemplate = new EJS({
 	url: '${pageContext.request.contextPath }/assets/js/ejs/ejs-templates/guestbook-list-item.ejs'
 });
@@ -83,24 +84,6 @@ var listTemplate = new EJS({
 
 
 var isEnd = false;
-var render = function(vo, mode) {
-	// 실제로는 template library 사용한다.
-	// -> ejs, underscore, mustache
-	var html =
-		'<li data-no="'+ vo.no +'">' + 
-			'<strong>' + vo.name + '</strong>' + 
-			'<p>' + vo.contents.replace(/</gi, '&lt;').replace(/>/gi, '&gt;').replace(/\n/gi, '<br>') + '</p>' + 
-			'<strong></strong>' + 
-			'<a href="" data-no="' + vo.no + '">삭제</a>' + 
-		'</li>';
-	
-	if(mode) {
-		$('#list-guestbook').prepend(html);
-	} else {
-		$('#list-guestbook').append(html);
-	}
-}
-
 var fetchList = function() {
 	if(isEnd) {
 		return;
@@ -128,10 +111,8 @@ var fetchList = function() {
 			}
 			
 			// rendering
-			$.each(response.data, function(index, vo) {
-				render(vo);
-			});
-//				$.each(response.data, render);
+			var html = listTemplate.render(response);
+			$('#list-guestbook').append(html);
 		},
 		error: function(jqXHR, status, e) {
 			console.err(status + ": " + e);
@@ -242,10 +223,12 @@ $(function() {
 				if(response.result != "success") {
 					console.error(response.message);
 					return ;
-				}	
+				}
 				
-				render(response.data, true);
-				
+				// rendering
+				var html = listItemTemplate.render(response.data);
+				$('#list-guestbook').prepend(html);
+
 				// reset form
 				$('#add-form')[0].reset();
 			},
