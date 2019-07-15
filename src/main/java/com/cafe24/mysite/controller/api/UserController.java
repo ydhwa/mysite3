@@ -9,6 +9,8 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -28,8 +30,11 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @RestController("userAPIController")
-@RequestMapping("/user/api")
+@RequestMapping("/api/user")
 public class UserController {
+	
+	@Autowired
+	private MessageSource messageSource;
 	
 	@Autowired
 	private UserService userService;
@@ -67,7 +72,10 @@ public class UserController {
 
 		if(validatorResults.isEmpty() == false) {
 			for(ConstraintViolation<UserVo> validatorResult: validatorResults) {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(validatorResult.getMessage()));
+//				String message = validatorResult.getMessage();
+				String message = messageSource.getMessage("Email.userVo.email", null, LocaleContextHolder.getLocale());
+
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(message));
 			}
 		}
 		

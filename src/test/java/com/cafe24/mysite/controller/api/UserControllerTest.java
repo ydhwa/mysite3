@@ -48,7 +48,7 @@ public class UserControllerTest {
 		userVo.setGender("FEMALE");
 
 		ResultActions resultActions = mockMvc.perform(
-				post("/user/api/join", 1L).contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(userVo)));
+				post("/api/user/join", 1L).contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(userVo)));
 
 		resultActions.andExpect(status().isOk()).andDo(print());
 
@@ -59,7 +59,7 @@ public class UserControllerTest {
 		userVo.setGender("FEMALE");
 
 		resultActions = mockMvc.perform(
-				post("/user/api/join", 1L).contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(userVo)));
+				post("/api/user/join", 1L).contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(userVo)));
 
 		resultActions.andExpect(status().isBadRequest()).andDo(print()).andExpect(jsonPath("$.result", is("fail")));
 
@@ -70,7 +70,7 @@ public class UserControllerTest {
 		userVo.setGender("FEMALE");
 
 		resultActions = mockMvc.perform(
-				post("/user/api/join", 1L).contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(userVo)));
+				post("/api/user/join", 1L).contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(userVo)));
 
 		resultActions.andExpect(status().isBadRequest()).andDo(print()).andExpect(jsonPath("$.result", is("fail")));
 
@@ -81,7 +81,7 @@ public class UserControllerTest {
 		userVo.setGender("");
 
 		resultActions = mockMvc.perform(
-				post("/user/api/join", 1L).contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(userVo)));
+				post("/api/user/join", 1L).contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(userVo)));
 
 		resultActions.andExpect(status().isBadRequest()).andDo(print()).andExpect(jsonPath("$.result", is("fail")));
 	}
@@ -91,12 +91,19 @@ public class UserControllerTest {
 		UserVo userVo = new UserVo();
 		
 		// 1. Normal User's Login Data
-		userVo.setEmail("ydhwa_17");
+		userVo.setEmail("ydhwa_17@naver.com");
 		userVo.setPassword("asdf1234#");
 
 		ResultActions resultActions = mockMvc.perform(
-				post("/user/api/login", 1L).contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(userVo)));
+				post("/api/user/login", 1L).contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(userVo)));
+		resultActions.andExpect(status().isOk()).andDo(print());
 
+		// 2. Invalidation in Email:
+		userVo.setEmail("ydhwa_17");
+		userVo.setPassword("asdf1234#");
+
+		resultActions = mockMvc.perform(
+				post("/api/user/login", 1L).contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(userVo)));
 		resultActions.andExpect(status().isBadRequest()).andDo(print()).andExpect(jsonPath("$.result", is("fail")));
 	}
 }
