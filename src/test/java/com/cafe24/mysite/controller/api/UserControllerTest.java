@@ -52,7 +52,6 @@ public class UserControllerTest {
 
 		resultActions.andExpect(status().isOk()).andDo(print());
 
-
 		// 2. Invalidation in Name: length must be between 2 and 20
 		userVo.setName("양");
 		userVo.setEmail("ydhwa_17@naver.com");
@@ -62,8 +61,7 @@ public class UserControllerTest {
 		resultActions = mockMvc.perform(
 				post("/user/api/join", 1L).contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(userVo)));
 
-		resultActions.andExpect(status().isBadRequest()).andDo(print())
-		.andExpect(jsonPath("$.result", is("fail")));
+		resultActions.andExpect(status().isBadRequest()).andDo(print()).andExpect(jsonPath("$.result", is("fail")));
 
 		// 3. Invalidation in Password: 비밀번호는 8자 이상 20자 이하의 알파벳, 숫자, 특수문자를 조합하여 작성해야 합니다.
 		userVo.setName("양동화");
@@ -74,7 +72,31 @@ public class UserControllerTest {
 		resultActions = mockMvc.perform(
 				post("/user/api/join", 1L).contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(userVo)));
 
-		resultActions.andExpect(status().isBadRequest()).andDo(print())
-		.andExpect(jsonPath("$.result", is("fail")));
+		resultActions.andExpect(status().isBadRequest()).andDo(print()).andExpect(jsonPath("$.result", is("fail")));
+
+		// 4. Invalidation in Gender:
+		userVo.setName("양동화");
+		userVo.setEmail("ydhwa_17@naver.com");
+		userVo.setPassword("asdf1234#");
+		userVo.setGender("");
+
+		resultActions = mockMvc.perform(
+				post("/user/api/join", 1L).contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(userVo)));
+
+		resultActions.andExpect(status().isBadRequest()).andDo(print()).andExpect(jsonPath("$.result", is("fail")));
+	}
+	
+	@Test
+	public void testUserLogin() throws Exception {
+		UserVo userVo = new UserVo();
+		
+		// 1. Normal User's Login Data
+		userVo.setEmail("ydhwa_17");
+		userVo.setPassword("asdf1234#");
+
+		ResultActions resultActions = mockMvc.perform(
+				post("/user/api/login", 1L).contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(userVo)));
+
+		resultActions.andExpect(status().isBadRequest()).andDo(print()).andExpect(jsonPath("$.result", is("fail")));
 	}
 }

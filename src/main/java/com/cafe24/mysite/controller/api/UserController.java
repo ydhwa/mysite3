@@ -1,8 +1,12 @@
 package com.cafe24.mysite.controller.api;
 
 import java.util.List;
+import java.util.Set;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,6 +52,22 @@ public class UserController {
 			List<ObjectError> list = result.getAllErrors();
 			for(ObjectError error: list) {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(error.getDefaultMessage()));
+			}
+		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(null);
+	}
+	
+	@RequestMapping(value="/login", method=RequestMethod.POST)
+	public ResponseEntity<JSONResult> login(@RequestBody UserVo userVo) {
+		
+		Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+		
+		Set<ConstraintViolation<UserVo>> validatorResults =  validator.validateProperty(userVo, "email");
+
+		if(validatorResults.isEmpty() == false) {
+			for(ConstraintViolation<UserVo> validatorResult: validatorResults) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(validatorResult.getMessage()));
 			}
 		}
 		
