@@ -1,7 +1,6 @@
 package com.cafe24.mysite.controller.api;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.mysite.dto.JSONResult;
 import com.cafe24.mysite.service.GuestbookService;
-import com.cafe24.mysite.service.GuestbookService2;
 import com.cafe24.mysite.vo.GuestbookVo;
 
 @RestController("guestbookAPIController")
