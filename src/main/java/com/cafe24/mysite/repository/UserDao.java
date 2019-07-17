@@ -30,21 +30,20 @@ public class UserDao {
 		int count = sqlSession.update("user.update", vo);
 		return 1 == count;
 	}
-	
+
 	public UserVo get(Long no) {
 		return sqlSession.selectOne("user.getByNo", no);
 	}
 
 	// email exist
 	public UserVo get(String email) {
+		//		return sqlSession.selectOne("user.getByEmail", email);
 		UserVo userVo = new UserVo();
 		userVo.setNo(2L);
 		userVo.setName("동화");
 		userVo.setPassword("1234");
 		userVo.setEmail("donghwa@naver.com");
-		
 		return userVo;
-//		return sqlSession.selectOne("user.getByEmail", email);
 	}
 
 	// logout, update
