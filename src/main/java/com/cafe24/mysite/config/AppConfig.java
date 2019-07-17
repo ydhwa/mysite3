@@ -7,11 +7,12 @@ import org.springframework.context.annotation.Import;
 
 import com.cafe24.config.app.DBConfig;
 import com.cafe24.config.app.MyBatisConfig;
+import com.cafe24.config.app.SecurityConfig;
 
 @Configuration
 @EnableAspectJAutoProxy	// 오토프록시 설정
 @ComponentScan({"com.cafe24.mysite.service", "com.cafe24.mysite.repository", "com.cafe24.mysite.aspect"})
-@Import({DBConfig.class, MyBatisConfig.class})
+@Import({SecurityConfig.class, DBConfig.class, MyBatisConfig.class})
 public class AppConfig {
 
 }
