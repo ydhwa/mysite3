@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cafe24.mysite.service.BoardService;
 import com.cafe24.mysite.vo.BoardVo;
 import com.cafe24.mysite.vo.UserVo;
-import com.cafe24.security.Auth;
 
 @Controller
 @RequestMapping("/board")
@@ -33,7 +32,7 @@ public class BoardController {
 	private BoardService boardService;
 
 	// 게시글 리스트 조회 / 검색
-	@Auth(role = Auth.Role.USER)
+//	@Auth(role = Auth.Role.USER)
 	@RequestMapping(value = {"/list", ""})
 	public String list(
 			Model model,
@@ -68,7 +67,7 @@ public class BoardController {
 	
 	
 	// 글 작성 (일반 게시글)
-	@Auth(role = Auth.Role.USER)
+//	@Auth(role = Auth.Role.USER)
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
 	public String write(
 			@RequestParam(value = "groupno", defaultValue = "-1") int groupNo,
@@ -95,7 +94,7 @@ public class BoardController {
 	
 
 	// 게시글 수정
-	@Auth(role = Auth.Role.USER)
+//	@Auth(role = Auth.Role.USER)
 	@RequestMapping(value = "/update/{no}", method = RequestMethod.GET)
 	public String update(
 			Model model,
@@ -113,7 +112,7 @@ public class BoardController {
 		
 		return "/board/update";
 	}
-	@Auth(role = Auth.Role.USER)
+//	@Auth(role = Auth.Role.USER)
 	@RequestMapping(value = "/update/{no}", method = RequestMethod.POST)
 	public String update(
 			HttpSession session,
@@ -139,7 +138,7 @@ public class BoardController {
 	}
 	
 	// 게시글 삭제
-	@Auth(role = Auth.Role.USER)
+//	@Auth(role = Auth.Role.USER)
 	@RequestMapping(value = "/delete/{no}")
 	public String delete(
 			HttpSession session,

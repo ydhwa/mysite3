@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cafe24.mysite.service.UserService;
 import com.cafe24.mysite.vo.UserVo;
-import com.cafe24.security.Auth;
 import com.cafe24.security.AuthUser;
 
 @Controller
@@ -62,7 +61,7 @@ public class UserController {
 	}
 	
 	// 개인정보 수정
-	@Auth
+//	@Auth
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
 	public String update(@AuthUser UserVo authUser, Model model) {
 		model.addAttribute("userVo", userService.getUser(authUser.getNo()));

@@ -11,7 +11,7 @@ import com.cafe24.config.app.SecurityConfig;
 
 @Configuration
 @EnableAspectJAutoProxy	// 오토프록시 설정
-@ComponentScan({"com.cafe24.mysite.service", "com.cafe24.mysite.repository", "com.cafe24.mysite.aspect"})
+@ComponentScan({"com.cafe24.mysite.security", "com.cafe24.mysite.service", "com.cafe24.mysite.repository", "com.cafe24.mysite.aspect"})
 @Import({SecurityConfig.class, DBConfig.class, MyBatisConfig.class})
 public class AppConfig {
 
