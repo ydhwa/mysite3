@@ -1,6 +1,7 @@
 package com.cafe24.mysite.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.cafe24.mysite.repository.UserDao;
@@ -13,6 +14,9 @@ public class UserService {
 	@Autowired
 	private UserDao userDao;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	public Boolean existEmail(String email) {
 		UserVo userVo = userDao.get(email);
 		System.out.println(email);
@@ -21,6 +25,7 @@ public class UserService {
 
 	public Boolean join(UserVo userVo) {
 		// 원래 insert는 count를 return해줘야 함
+		userVo.setPassword(passwordEncoder.encode(userVo.getPassword()));
 		return userDao.insert(userVo);
 	}
 

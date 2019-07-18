@@ -8,11 +8,10 @@ import javax.validation.ConstraintValidatorContext;
 import com.cafe24.mysite.validator.ValidGender;
 
 public class GenderValidator implements ConstraintValidator<ValidGender, String> {
-	private Pattern pattern = Pattern.compile("MALE|FEMALE|NONE");
+	private Pattern pattern = Pattern.compile("male|female");
 
 	@Override
 	public void initialize(ValidGender constraintAnnotation) {
-		// TODO Auto-generated method stub
 		
 	}
 

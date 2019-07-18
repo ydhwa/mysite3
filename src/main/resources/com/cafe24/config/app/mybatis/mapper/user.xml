@@ -7,8 +7,8 @@
 	<insert id="insert" parameterType="uservo">
 		<![CDATA[
 			insert 
-			into user(no, name, email, password, gender, join_date) 
-			values(null, #{ name }, #{ email }, #{ password }, #{ gender }, now());
+			into user(no, name, email, password, gender, role, join_date) 
+			values(null, #{ name }, #{ email }, #{ password }, #{ gender }, #{ role }, now());
 		]]>
 		<selectKey keyProperty="no" resultType="long" order="AFTER">
 			<![CDATA[
