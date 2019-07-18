@@ -13,7 +13,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import com.cafe24.mysite.security.CustomUrlAuthenticationSuccessHandler;
 
 /*
  	 1. ChannelProcessingFilter
@@ -94,11 +97,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.permitAll()
 
 				/*
-				 * CSRF 설정(190718에 할 예정. 일단 이를 무시하도록 설정) Temporary for testing
-				 */
-//		http.csrf().disable();
-
-				/*
 				 * 2. 로그인 설정
 				 */
 				.and()
@@ -106,7 +104,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginPage("/user/login")
 				.loginProcessingUrl("/user/auth")
 				.failureUrl("/user/login?result=fail")
-				.defaultSuccessUrl("/", true)
+				
+				//.defaultSuccessUrl("/", true)
+				.successHandler(authenticationSuccessHandler())
+				
 				.usernameParameter("email")
 				.passwordParameter("password")
 
@@ -132,16 +133,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 				.rememberMe()
 				.key("mysite3")
-				.rememberMeParameter("remember-me");
+				.rememberMeParameter("remember-me")
+				
+				/*
+				 * CSRF 사용여부 설정. Temporary for testing
+				 */
+				.and()
+				.csrf().disable();
 	}
-
+	
 	// UserDetailsService를 설정
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //		super.configure(auth);
-		auth.userDetailsService(userDetailsService)
-
-				.and().authenticationProvider(authenticationProvider());
+		auth
+				.userDetailsService(userDetailsService)
+				.and()
+				.authenticationProvider(authenticationProvider());
+	}
+	
+	// AuthenticationSuccessHandler 등록
+	@Bean
+	public AuthenticationSuccessHandler authenticationSuccessHandler() {
+		return new CustomUrlAuthenticationSuccessHandler();
 	}
 
 	@Bean

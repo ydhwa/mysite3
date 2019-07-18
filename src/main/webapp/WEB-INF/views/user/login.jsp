@@ -33,10 +33,7 @@ $(function() {
 			dataType: "json",
 			data: params,
 			success: function(response) {
-				if(response.result != "success") {
-					console.log(response);
-					return ;
-				}
+				console.log(response);
 			},
 			error: function(jqXHR, status, e) {
 				console.error(status + ": " + e);
