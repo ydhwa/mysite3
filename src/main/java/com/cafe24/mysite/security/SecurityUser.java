@@ -6,6 +6,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class SecurityUser implements UserDetails {
+	private static final long serialVersionUID = 1L;
+
 	// security fields
 	private Collection<? extends GrantedAuthority> authorities;
 	private String username;	// credential(biz name: email)

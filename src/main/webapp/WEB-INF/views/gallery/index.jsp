@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%> 
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%pageContext.setAttribute( "newLine", "\n" );%>
 <!DOCTYPE html>
@@ -14,6 +15,8 @@
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/lightbox.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<sec:authorize access="hasRole('ADMIN')">
 <script type="text/javascript">
 $(function(){
 	// 업로드 다이알로그
@@ -42,6 +45,8 @@ $(function(){
 	});
 });	
 </script>
+</sec:authorize>
+
 </head>
 <body>
 	<div id="container">
@@ -50,7 +55,9 @@ $(function(){
 			<div id="gallery">
 				<div>
 					<h1>갤러리</h1>
+					<sec:authorize access="hasRole('ADMIN')">
 					<a href="" id="upload-image">이미지 올리기</a>
+					</sec:authorize>
 				</div>
 				<ul>
 						<li>

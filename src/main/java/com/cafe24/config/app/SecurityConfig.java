@@ -86,10 +86,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				// .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
 				// .antMatchers("/admin/**").hasRole("ADMIN");
 				.antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+				.antMatchers("/gallery/upload", "/gallery/delete/**").hasAuthority("ROLE_ADMIN")
 
 				// 모두 허용
 //			.antMatchers("/**").permitAll();
-				.anyRequest().permitAll()
+				.anyRequest()
+				.permitAll()
 
 				/*
 				 * CSRF 설정(190718에 할 예정. 일단 이를 무시하도록 설정) Temporary for testing
@@ -99,20 +101,38 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				/*
 				 * 2. 로그인 설정
 				 */
-				.and().formLogin().loginPage("/user/login").loginProcessingUrl("/user/auth")
-				.failureUrl("/user/login?result=fail").defaultSuccessUrl("/", true).usernameParameter("email")
+				.and()
+				.formLogin()
+				.loginPage("/user/login")
+				.loginProcessingUrl("/user/auth")
+				.failureUrl("/user/login?result=fail")
+				.defaultSuccessUrl("/", true)
+				.usernameParameter("email")
 				.passwordParameter("password")
 
 				/*
 				 * 3. 로그아웃 설정
 				 */
-				.and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/user/logout")).logoutSuccessUrl("/")
+				.and()
+				.logout()
+				.logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
+				.logoutSuccessUrl("/")
 				.invalidateHttpSession(true)
 
 				/*
 				 * 4. Access Denial Handler
 				 */
-				.and().exceptionHandling().accessDeniedPage("/WEB-INF/views/error/403.jsp");
+				.and()
+				.exceptionHandling()
+				.accessDeniedPage("/WEB-INF/views/error/403.jsp")
+		
+				/*
+				 * 5. RememberMe
+				 */
+				.and()
+				.rememberMe()
+				.key("mysite3")
+				.rememberMeParameter("remember-me");
 	}
 
 	// UserDetailsService를 설정

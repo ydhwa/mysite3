@@ -14,13 +14,35 @@
 <link href="${ pageContext.servletContext.contextPath }/assets/css/user.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.servletContext.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
 <script>
+var csrfParameter = $('meta[name="_csrf_parameter"]').attr('content');
+var csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+var csrfToken = $('meta[name="_csrf"]').attr('content');
+console.log(csrfParameter);
+console.log(csrfHeader);
+console.log(csrfToken);
+
 $(function() {
-	var csrfParameter = $('meta[name="_csrf_parameter"]').attr('content');
-	var csrfHeader = $('meta[name="_csrf_header"]').attr('content');
-	var csrfToken = $('meta[name="_csrf"]').attr('content');
-	console.log(csrfParameter);
-	console.log(csrfHeader);
-	console.log(csrfToken);	
+	$('#login-form').submit(function(event) {
+		event.preventDefault();
+		
+		var params = 'email=' + $('#email').val()  + '&password=' + $('#password').val();
+		$.ajax({
+			url: "${pageContext.request.contextPath}/user/auth",
+			type: "post",
+			//contentType: "application/json",	// POST 방식으로 JSON Type의 데이터를 보낼 때
+			dataType: "json",
+			data: params,
+			success: function(response) {
+				if(response.result != "success") {
+					console.log(response);
+					return ;
+				}
+			},
+			error: function(jqXHR, status, e) {
+				console.error(status + ": " + e);
+			}
+		});
+	});
 });
 </script>
 </head>
@@ -33,10 +55,12 @@ $(function() {
 				<form id="login-form" name="loginform" method="post"
 					action="${ pageContext.servletContext.contextPath }/user/auth">
 					<sec:csrfInput/>
-					<label class="block-label" for="email">이메일</label> <input
-						id="email" name="email" type="text" value=""> <label
-						class="block-label">패스워드</label> <input name="password"
-						type="password" value="">
+					<label class="block-label" for="email">이메일</label>
+					<input id="email" name="email" type="text" value=""> 
+					<label class="block-label">패스워드</label>
+					<input name="password" id="password" type="password" value="">
+					<label style="display: inline" for="auto-login" class="block-label">자동로그인</label>
+					<input id="auto-login" name="remember-me" type="checkbox">
 
 					<c:if test="${ param.result == 'fail' }">
 						<p>로그인이 실패 했습니다.</p>

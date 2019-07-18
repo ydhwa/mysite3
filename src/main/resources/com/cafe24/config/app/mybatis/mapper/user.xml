@@ -8,7 +8,7 @@
 		<![CDATA[
 			insert 
 			into user(no, name, email, password, gender, role, join_date) 
-			values(null, #{ name }, #{ email }, #{ password }, #{ gender }, #{ role }, now());
+			values(null, #{ name }, #{ email }, #{ password }, #{ gender }, 'ROLE_USER', now());
 		]]>
 		<selectKey keyProperty="no" resultType="long" order="AFTER">
 			<![CDATA[
