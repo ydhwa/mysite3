@@ -8,10 +8,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class SecurityUser implements UserDetails {
 	// security fields
 	private Collection<? extends GrantedAuthority> authorities;
-	private String username;	// principal(biz name: email)
+	private String username;	// credential(biz name: email)
 	private String password;	// credential
 	
-	// domain fields
+	// domain fields(principal: 보호할 사용자 중요 데이터)
 	private Long no;
 	private String name;
 	

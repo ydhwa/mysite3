@@ -72,8 +72,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		/*
 		 * 1. ACL 설정
 		 */
-		// 인증이 되어있을 때(authenticated?)
-		http.authorizeRequests()
+		http
+			.authorizeRequests()
+			// 인증이 되어있을 때(authenticated)
 			.antMatchers("/user/update", "/user/logout").authenticated()
 			.antMatchers("/board/write", "/board/delete", "/board/modify").authenticated()
 		
@@ -103,7 +104,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.failureUrl("/user/login?result=fail")
 			.defaultSuccessUrl("/", true)
 			.usernameParameter("email")
-			.usernameParameter("password");
+			.passwordParameter("password");
 		
 		/*
 		 * 3. 로그아웃 설정
@@ -119,7 +120,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //		super.configure(auth);
-		auth
-			.userDetailsService(userDetailsService);
+		auth.userDetailsService(userDetailsService);
 	}
 }

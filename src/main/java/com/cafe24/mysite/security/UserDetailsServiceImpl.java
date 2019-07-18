@@ -28,14 +28,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		
 		SecurityUser securityUser = new SecurityUser();
 		if(userVo != null) {
-			// mock data
-			String role = "ROLE_USER";
-			
 			securityUser.setNo(userVo.getNo());
 			securityUser.setName(userVo.getName());
 			securityUser.setUsername(userVo.getEmail());		// principal
 			securityUser.setPassword(userVo.getPassword());		// credential
-			securityUser.setAuthorities(Arrays.asList(new SimpleGrantedAuthority(role)));
+			securityUser.setAuthorities(Arrays.asList(new SimpleGrantedAuthority(userVo.getRole())));
 		}
 		
 		return securityUser;

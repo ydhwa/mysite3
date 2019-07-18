@@ -37,13 +37,7 @@ public class UserDao {
 
 	// email exist
 	public UserVo get(String email) {
-		//		return sqlSession.selectOne("user.getByEmail", email);
-		UserVo userVo = new UserVo();
-		userVo.setNo(2L);
-		userVo.setName("동화");
-		userVo.setPassword("1234");
-		userVo.setEmail("donghwa@naver.com");
-		return userVo;
+		return sqlSession.selectOne("user.getByEmail", email);
 	}
 
 	// logout, update
