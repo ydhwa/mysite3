@@ -92,7 +92,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 * CSRF 설정(190718에 할 예정. 일단 이를 무시하도록 설정)
 		 * Temporary for testing
 		 */
-		http.csrf().disable();
+//		http.csrf().disable();
 		
 		/*
 		 * 2. 로그인 설정
