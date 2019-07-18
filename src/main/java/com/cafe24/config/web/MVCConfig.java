@@ -19,7 +19,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import com.cafe24.security.AuthUserHandlerMethodArgumentResolver;
+import com.cafe24.mysite.security.AuthUserHandlerMethodArgumentResolver;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 
 @Configuration

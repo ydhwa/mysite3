@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.cafe24.mysite.security.AuthUser;
+import com.cafe24.mysite.security.SecurityUser;
 import com.cafe24.mysite.service.UserService;
 import com.cafe24.mysite.vo.UserVo;
-import com.cafe24.security.AuthUser;
 
 @Controller
 @RequestMapping("/user")
@@ -63,19 +64,19 @@ public class UserController {
 	// 개인정보 수정
 //	@Auth
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public String update(@AuthUser UserVo authUser, Model model) {
-		model.addAttribute("userVo", userService.getUser(authUser.getNo()));
+	public String update(@AuthUser SecurityUser securityUser, Model model) {
+		model.addAttribute("userVo", userService.getUser(securityUser.getNo()));
 
 		return "user/update";
 	}
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public String update(
 			@ModelAttribute UserVo userVo,
-			@AuthUser UserVo authUser,
+			@AuthUser SecurityUser securityUser,
 			HttpSession session,
 			Model model) {
 		
-		userVo.setNo(authUser.getNo());
+		userVo.setNo(securityUser.getNo());
 		
 		session.setAttribute("authUser", userService.update(userVo));
 		model.addAttribute("result", "success");
