@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import javax.servlet.ServletException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,6 +40,9 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.CookieClearingLogoutHandler;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -67,7 +72,7 @@ public class AppSecurityConfig2 {
 				securityContextPersistenceFilter(),
 
 				// 2. LogoutFilter
-//				logoutFilter(),
+				logoutFilter(),
 
 				// 3. UsernamePasswordAuthenticationFilter
 				usernamePasswordAuthenticationFilter(),
@@ -95,6 +100,26 @@ public class AppSecurityConfig2 {
 	@Bean
 	public SecurityContextPersistenceFilter securityContextPersistenceFilter() {
 		return new SecurityContextPersistenceFilter(new HttpSessionSecurityContextRepository());
+	}
+	
+	/*
+	 * 2. LogoutFilter
+	 * 
+	 * logout url을 감시한다.
+	 * CustomLogoutSuccessHandler(로그아웃이 성공하면 web에서는 main화면이지만, API에서는 JSON으로 응답해야 하기 때문에..)
+	 */
+	@Bean
+	public LogoutFilter logoutFilter() throws ServletException {
+		CookieClearingLogoutHandler cookieClearingLogoutHandler = new CookieClearingLogoutHandler("JSESSIONID");
+		SecurityContextLogoutHandler securityCOntextLogoutHandler = new SecurityContextLogoutHandler();
+		securityCOntextLogoutHandler.setInvalidateHttpSession(true);
+		securityCOntextLogoutHandler.setClearAuthentication(true);
+		
+		LogoutFilter logoutFilter = new LogoutFilter("/", cookieClearingLogoutHandler);
+		logoutFilter.setFilterProcessesUrl("/user/logout");
+		logoutFilter.afterPropertiesSet();
+		
+		return logoutFilter;
 	}
 	
 	/*
@@ -132,7 +157,7 @@ public class AppSecurityConfig2 {
 	 */
 	@Bean
 	public AnonymousAuthenticationFilter anonymousAuthenticationFilter() {
-		return new AnonymousAuthenticationFilter("aS23asd241AFE");
+		return new AnonymousAuthenticationFilter("Q9s37607a2d9A74");
 	}
 
 	/*
