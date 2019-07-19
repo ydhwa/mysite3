@@ -24,13 +24,13 @@ import com.cafe24.mysite.security.CustomUrlAuthenticationSuccessHandler;
 	 3. ConcurrentSessionFilter
 	 4. LogoutFilter							( auto-config default, V )
 	 5. UsernamePasswordAuthenticationFilter	( auto-config default, V ) 인증에 관여함. 아주 중요!
-	 6. DefaultLoginPageGeneratingFilter		( auto-config default )
+	 6. DefaultLoginPageGeneratingFilter		( auto-config default ) 어차피 커스텀 login 페이지를 만들어주므로 필요하지 않다.
 	 7. CasAuthenticationFilter
 	 8. BasicAuthenticationFilter				( auto-config default, V(아주 중요) )
 	 9. RequestCacheAwareFilter					( auto-config default )
 	10. SecurityContextHolderAwareRequestFilter	( auto-config default )
 	11. JaasApiIntegrationFilter
-	12. RememberMeAuthenticationFilter
+	12. RememberMeAuthenticationFilter			( V )
 	13. AnonymousAuthenticationFilter			( auto-config default )
 	14. SessionManagementFilter					( auto-config default )
 	15. ExceptionTranslationFilter				( auto-config default, V )
@@ -38,7 +38,7 @@ import com.cafe24.mysite.security.CustomUrlAuthenticationSuccessHandler;
  */
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
